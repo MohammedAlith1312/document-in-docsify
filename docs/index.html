@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <meta name="description" content="Description">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: 'Docs',
+      // repo: '',
+      loadSidebar: '_nav.md',
+      requestHeaders: {
+        'cache-control': 'max-age=0',
+      },
+      // pagination: {
+      //   previousText: 'Previous',
+      //   nextText: 'Next',
+      //   crossChapter: true,
+      //   crossChapterText: true,
+      // },
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- Docsify Copy Code -->
+  <script src="https://unpkg.com/docsify-copy-code@2"></script>
+  <!-- Docsify Pagination -->
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- GitHub Issue Feedback System -->
+  <script type="module" src="tb/tb-main.js"></script>
+</body>
+
+</html>
