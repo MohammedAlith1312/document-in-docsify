@@ -2,7 +2,10 @@
 (function () {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000'
-        : 'https://document-docsify.onrender.com';
+        : 'https://document-in-docsify-1.onrender.com';
+
+    // Detect base path (works for both localhost and GitHub Pages subpath)
+    const BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
 
     const AUTH_KEYS = {
         TOKEN: 'gh_access_token',
@@ -56,7 +59,7 @@
         if (params.has('auth_error')) {
             console.error('Auth: Login failed —', params.get('auth_error'));
             // Redirect to login page with error
-            window.location.replace('/login.html?auth_error=' + params.get('auth_error'));
+            window.location.replace(BASE_PATH + 'login.html?auth_error=' + params.get('auth_error'));
             return;
         }
     }
@@ -67,7 +70,7 @@
         if (window.location.pathname.includes('login.html')) return;
 
         if (!isLoggedIn()) {
-            window.location.replace('/login.html');
+            window.location.replace(BASE_PATH + 'login.html');
             return false;
         }
         return true;
@@ -271,7 +274,7 @@
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
                 clearUser();
-                window.location.replace('/login.html');
+                window.location.replace(BASE_PATH + 'login.html');
             });
         }
     }

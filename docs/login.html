@@ -334,11 +334,14 @@
     <script>
         var API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://document-docsify.onrender.com';
+            : 'https://document-in-docsify-1.onrender.com';
+
+        // Detect base path (works for both localhost and GitHub Pages subpath)
+        var BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
 
         // If already logged in, go straight to docs
         if (localStorage.getItem('gh_access_token')) {
-            window.location.replace('/');
+            window.location.replace(BASE_PATH);
         }
 
         // Check for auth errors in URL
