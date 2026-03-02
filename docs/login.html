@@ -336,9 +336,12 @@
             ? 'http://localhost:3000'
             : 'https://document-in-docsify-1.onrender.com';
 
+        // Detect base path for GitHub Pages subfolder
+        var BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+
         // If already logged in, go straight to docs
         if (localStorage.getItem('gh_access_token')) {
-            window.location.replace('/');
+            window.location.replace(BASE_PATH);
         }
 
         // Check for auth errors in URL
