@@ -2,7 +2,7 @@
 (function () {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000'
-        : 'https://document-docsify.onrender.com';
+        : 'https://document-in-docsify-1.onrender.com';
 
     const AUTH_KEYS = {
         TOKEN: 'gh_access_token',
