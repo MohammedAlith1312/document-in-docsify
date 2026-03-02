@@ -28,7 +28,7 @@
         function editPlugin(hook, vm) {
           // GitHub config
           var owner = 'MohammedAlith1312';
-          var repo = 'documentation';
+          var repo = 'document-in-docsify';
           var branch = 'main';
           var docsPath = 'docs/';
 
@@ -45,9 +45,9 @@
             // GitHub edit URL
             var githubEditUrl = 'https://github.com/' + owner + '/' + repo + '/edit/' + branch + '/' + docsPath + file;
 
-            // PagesCMS edit URL — encode "{file}" with %2F for slashes
-            var encodedFilePath = encodeURIComponent(file);
-            var pagesCmsUrl = pagesCmsBase + '/' + pagesCmsOwner + '/' + pagesCmsRepo + '/' + branch
+            // PagesCMS edit URL — include docs/ folder prefix, encode slashes as %2F
+            var encodedFilePath = encodeURIComponent('docs/' + file);
+            var pagesCmsUrl = pagesCmsBase + '/' + pagesCmsOwner.toLowerCase() + '/' + pagesCmsRepo + '/' + branch
               + '/collection/' + pagesCmsCollection + '/edit/' + encodedFilePath;
 
             var editBar = '<div style="margin-bottom:1em; display:flex; gap:12px; font-size:14px;">'
@@ -73,14 +73,12 @@
   <script src="https://unpkg.com/docsify-copy-code@2"></script>
   <!-- Docsify Pagination -->
   <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
-  <<<<<<< HEAD <!-- GitHub Issue Feedback System -->
-    <script type="module" src="tb/tb-main.js"></script>
-    <!-- GitHub OAuth Auth -->
-    <script src="auth.js"></script>
-    =======
-    <!-- GitHub Issue Feedback System -->
-    <script type="module" src="tb/tb-main.js"></script>
-    >>>>>>> 34531f48ab40cac357822c74c0ed840d1d1d320f
+  <!-- GitHub Issue Feedback System -->
+  <script type="module" src="tb/tb-main.js"></script>
+  <!-- GitHub OAuth Auth -->
+  <script src="auth.js"></script>
+
+
 </body>
 
 </html>

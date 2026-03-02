@@ -38,17 +38,12 @@ async function isRepoCollaborator(username) {
 
 // 1. Redirect user to GitHub OAuth
 router.get("/login", (req, res) => {
-    // Force https in production — Render sits behind a reverse proxy
-    // and req.protocol returns 'http' even though the connection is HTTPS
-    const protocol = (req.hostname === 'localhost' || req.hostname === '127.0.0.1')
-        ? 'http'
-        : 'https';
-    const redirectUri = `${protocol}://${req.get("host")}/api/auth/callback`;
-    const scope = "read:user user:email repo";
+    const redirectUri = `${req.protocol}://${req.get("host")}/api/auth/callback`;
+    const scope = "read:user user:email";
     const githubAuthUrl =
         `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
 
-    console.log("Auth: Redirecting to GitHub OAuth, callback:", redirectUri);
+    console.log("Auth: Redirecting to GitHub OAuth...");
     res.redirect(githubAuthUrl);
 });
 
