@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { App } = require("octokit");
+const { App, Octokit } = require("octokit");
 const dotenv = require("dotenv");
 const path = require("path");
 
@@ -15,6 +15,17 @@ const PORT = process.env.PORT || 3000;
 // Shared GitHub App helper
 const { getOctokit } = require("./api/github");
 
+// Get a client for the logged-in user, falling back to the generic bot
+async function getAuthClient(req, owner) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith("Bearer ")) {
+        const token = authHeader.split(" ")[1];
+        return new Octokit({ auth: token });
+    }
+    // Fallback to bot if not logged in
+    return await getOctokit(owner);
+}
+
 // Auth routes
 const authRouter = require("./api/auth");
 app.use("/api/auth", authRouter);
@@ -26,7 +37,7 @@ app.get("/api/issues/list", async (req, res) => {
     try {
         const owner = process.env.GITHUB_OWNER;
         const repo = process.env.GITHUB_REPO;
-        const octokit = await getOctokit(owner);
+        const octokit = await getAuthClient(req, owner);
 
         console.log(`TB: Fetching all issues for ${owner}/${repo}...`);
 
@@ -79,7 +90,7 @@ app.post("/api/issues/create", async (req, res) => {
         const { title, body } = req.body;
         const owner = process.env.GITHUB_OWNER;
         const repo = process.env.GITHUB_REPO;
-        const octokit = await getOctokit(owner);
+        const octokit = await getAuthClient(req, owner);
         const response = await octokit.rest.issues.create({ owner, repo, title, body });
         res.json({ success: true, url: response.data.html_url, number: response.data.number });
     } catch (error) { res.status(500).json({ error: error.message }); }
@@ -91,7 +102,7 @@ app.post("/api/issues/comment", async (req, res) => {
         const { number, comment } = req.body;
         const owner = process.env.GITHUB_OWNER;
         const repo = process.env.GITHUB_REPO;
-        const octokit = await getOctokit(owner);
+        const octokit = await getAuthClient(req, owner);
         const response = await octokit.rest.issues.createComment({ owner, repo, issue_number: number, body: comment });
         res.json({ success: true, data: response.data });
     } catch (error) { res.status(500).json({ error: error.message }); }
@@ -103,7 +114,7 @@ app.post("/api/issues/close", async (req, res) => {
         const { number } = req.body;
         const owner = process.env.GITHUB_OWNER;
         const repo = process.env.GITHUB_REPO;
-        const octokit = await getOctokit(owner);
+        const octokit = await getAuthClient(req, owner);
         await octokit.rest.issues.update({ owner, repo, issue_number: number, state: "closed" });
         res.json({ success: true });
     } catch (error) { res.status(500).json({ error: error.message }); }
@@ -115,7 +126,7 @@ app.post("/api/issues/update", async (req, res) => {
         const { number, title, body } = req.body;
         const owner = process.env.GITHUB_OWNER;
         const repo = process.env.GITHUB_REPO;
-        const octokit = await getOctokit(owner);
+        const octokit = await getAuthClient(req, owner);
         const response = await octokit.rest.issues.update({ owner, repo, issue_number: number, title, body });
         res.json({ success: true, data: response.data });
     } catch (error) { res.status(500).json({ error: error.message }); }

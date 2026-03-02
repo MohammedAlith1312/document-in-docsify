@@ -5,7 +5,10 @@ import { openSidebar, renderCardContent } from './tb-components.js';
 export async function fetchIssues() {
     try {
         console.log("TB: Requesting issues from", `${API_BASE}/list`);
-        const res = await fetch(`${API_BASE}/list`);
+        const token = localStorage.getItem('gh_access_token');
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+
+        const res = await fetch(`${API_BASE}/list`, { headers });
 
         if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
@@ -52,9 +55,13 @@ export async function submitNewIssue() {
         const rawTitle = desc.split('\n')[0].substring(0, 100).trim();
         const bodyContent = `**Description:**\n${desc}\n\n**Selected Context:**\n> ${state.selectedText}\n\n**URL:**\n${window.location.href}`;
 
+        const token = localStorage.getItem('gh_access_token');
         const res = await fetch(`${API_BASE}/create`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify({ title: rawTitle || "New Issue", body: bodyContent })
         });
         const data = await res.json();
@@ -84,9 +91,13 @@ export async function saveIssueEdit(issue, container, rect) {
     const body = document.getElementById('tb-edit-body').value.trim();
     if (!title || !body) return;
     try {
+        const token = localStorage.getItem('gh_access_token');
         const res = await fetch(`${API_BASE}/update`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify({ number: issue.issueNumber, title, body })
         });
         if (!res.ok) throw new Error();
@@ -103,9 +114,13 @@ export async function submitComment(issue, container, rect) {
     const text = document.getElementById('tb-comment-text').value.trim();
     if (!text) return;
     try {
+        const token = localStorage.getItem('gh_access_token');
         const res = await fetch(`${API_BASE}/comment`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify({ number: issue.issueNumber, comment: text })
         });
         if (!res.ok) throw new Error();
@@ -118,9 +133,13 @@ export async function submitComment(issue, container, rect) {
 export async function closeCurrentIssue(issue) {
     if (!confirm("Close?")) return;
     try {
+        const token = localStorage.getItem('gh_access_token');
         const res = await fetch(`${API_BASE}/close`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+            },
             body: JSON.stringify({ number: issue.issueNumber })
         });
         if (!res.ok) throw new Error();

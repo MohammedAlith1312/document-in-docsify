@@ -99,45 +99,28 @@
             #gh-user-profile {
                 display: inline-flex;
                 align-items: center;
-                gap: 10px;
-                padding: 5px 14px 5px 5px;
-                background: #fff;
-                border: 1px solid #e5e7eb;
-                border-radius: 24px;
                 cursor: pointer;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-                transition: all 0.2s ease;
+                transition: transform 0.2s ease;
                 position: relative;
             }
             #gh-user-profile:hover {
-                border-color: #d1d5db;
                 transform: translateY(-2px);
-                box-shadow: 0 6px 16px rgba(0,0,0,0.1);
             }
             #gh-user-avatar {
-                width: 30px;
-                height: 30px;
+                width: 36px;
+                height: 36px;
                 border-radius: 50%;
-                border: 2px solid #e5e7eb;
                 object-fit: cover;
-            }
-            #gh-user-name {
-                font-size: 13px;
-                font-weight: 600;
-                color: #1f2937;
-                max-width: 120px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             }
 
-            /* Dropdown */
             #gh-dropdown {
                 display: none;
                 position: absolute;
                 top: calc(100% + 8px);
                 right: 0;
-                min-width: 200px;
+                min-width: 220px;
+                max-width: 280px;
                 background: #fff;
                 border: 1px solid #e5e7eb;
                 border-radius: 14px;
@@ -162,15 +145,24 @@
             .gh-dropdown-header img {
                 width: 36px; height: 36px; border-radius: 50%;
                 border: 2px solid #e5e7eb;
+                flex-shrink: 0;
             }
             .gh-dropdown-header-info {
                 display: flex; flex-direction: column;
+                overflow: hidden; /* Needed for text truncation */
+                width: 100%;
             }
             .gh-dropdown-header-name {
                 font-size: 14px; font-weight: 700; color: #111;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .gh-dropdown-header-login {
                 font-size: 12px; color: #6b7280;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             .gh-dropdown-item {
@@ -217,11 +209,7 @@
         container.id = 'gh-auth-container';
         container.innerHTML = `
             <div id="gh-user-profile">
-                <img id="gh-user-avatar" src="${user.avatar}" alt="${user.login}" />
-                <span id="gh-user-name">${user.name}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2.5">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                </svg>
+                <img id="gh-user-avatar" src="${user.avatar}" alt="${user.login}" title="${user.name}" />
                 <div id="gh-dropdown">
                     <div class="gh-dropdown-header">
                         <img src="${user.avatar}" alt="${user.login}" />

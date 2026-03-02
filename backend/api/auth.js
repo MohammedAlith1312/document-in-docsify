@@ -42,7 +42,8 @@ router.get("/login", (req, res) => {
     const protocol = req.headers['x-forwarded-proto'] || req.protocol;
     const redirectUri = `${protocol}://${req.get("host")}/api/auth/callback`;
 
-    const scope = "read:user user:email";
+    // Request full 'repo' scope so the user can create and comment on issues directly
+    const scope = "repo read:user user:email";
     const githubAuthUrl =
         `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scope)}`;
 
