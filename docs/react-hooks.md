@@ -6,7 +6,7 @@ content: >-
 
 
   Hooks allow you to use state and other React features without writing a class
-  and handling changes like triggering events.
+  and handling changes like trigger.
 
 
   ## The useState Hook
