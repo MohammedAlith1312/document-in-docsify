@@ -1,14 +1,16 @@
 ---
 title: React Basics
 slug: /react
-content: |-
+content: >-
   ## Learn React
 
-  *   React is a JavaScript library for building user interfaces and functions.
+
+  *   React is a JavaScript library for building user interfaces, objects and
+  functions.
       
   *   React is used to build single-page applications.
       
-  *   React allows us to create reusable UI components for perfect website.
+  *   React allows us to create reusable UI components for perfect web.
       
       ```
       import { createRoot } from 'react-dom/client';
