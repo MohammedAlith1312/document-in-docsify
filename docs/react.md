@@ -8,7 +8,7 @@ content: |-
       
   *   React is used to build single-page applications.
       
-  *   React allows us to create reusable UI components for perfect website.
+  *   React allows us to create reusable UI components for perfect web.
       
       ```
       import { createRoot } from 'react-dom/client';
