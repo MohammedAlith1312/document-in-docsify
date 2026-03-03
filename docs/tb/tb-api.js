@@ -4,11 +4,9 @@ import { openSidebar, renderCardContent } from './tb-components.js';
 
 export async function fetchIssues() {
     try {
-        console.log("TB: Requesting issues from", `${API_BASE}/list`);
         const token = localStorage.getItem('gh_access_token');
         const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
-
-        const res = await fetch(`${API_BASE}/list`, { headers });
+        const res = await fetch(`${API_BASE}`, { headers });
 
         if (!res.ok) {
             const errData = await res.json().catch(() => ({}));
@@ -56,7 +54,7 @@ export async function submitNewIssue() {
         const bodyContent = `**Description:**\n${desc}\n\n**Selected Context:**\n> ${state.selectedText}\n\n**URL:**\n${window.location.href}`;
 
         const token = localStorage.getItem('gh_access_token');
-        const res = await fetch(`${API_BASE}/create`, {
+        const res = await fetch(`${API_BASE}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,8 +90,8 @@ export async function saveIssueEdit(issue, container, rect) {
     if (!title || !body) return;
     try {
         const token = localStorage.getItem('gh_access_token');
-        const res = await fetch(`${API_BASE}/update`, {
-            method: 'POST',
+        const res = await fetch(`${API_BASE}`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 ...(token ? { 'Authorization': `Bearer ${token}` } : {})
@@ -115,13 +113,13 @@ export async function submitComment(issue, container, rect) {
     if (!text) return;
     try {
         const token = localStorage.getItem('gh_access_token');
-        const res = await fetch(`${API_BASE}/comment`, {
+        const res = await fetch(`${API_BASE}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
-            body: JSON.stringify({ number: issue.issueNumber, comment: text })
+            body: JSON.stringify({ action: 'comment', number: issue.issueNumber, comment: text })
         });
         if (!res.ok) throw new Error();
         state.showCommentInput = false;
@@ -134,13 +132,13 @@ export async function closeCurrentIssue(issue) {
     if (!confirm("Close?")) return;
     try {
         const token = localStorage.getItem('gh_access_token');
-        const res = await fetch(`${API_BASE}/close`, {
-            method: 'POST',
+        const res = await fetch(`${API_BASE}`, {
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 ...(token ? { 'Authorization': `Bearer ${token}` } : {})
             },
-            body: JSON.stringify({ number: issue.issueNumber })
+            body: JSON.stringify({ number: issue.issueNumber, state: 'closed' })
         });
         if (!res.ok) throw new Error();
         const target = state.issues.find(i => i.id === issue.id);

@@ -334,7 +334,7 @@
     <script>
         var API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
             ? 'http://localhost:3000'
-            : 'https://document-in-docsify-1.onrender.com';
+            : 'https://pages-cms-ten-psi.vercel.app';
 
         // Detect base path for GitHub Pages subfolder
         var BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
@@ -363,7 +363,10 @@
         function loginWithGitHub() {
             var btn = document.getElementById('github-login-btn');
             btn.classList.add('loading');
-            window.location.href = API_BASE + '/api/auth/login';
+
+            // Capture current origin + path for redirect back
+            var redirectParam = window.location.origin + BASE_PATH;
+            window.location.href = API_BASE + '/api/auth/login?redirect=' + encodeURIComponent(redirectParam);
         }
 
         function showError(msg) {

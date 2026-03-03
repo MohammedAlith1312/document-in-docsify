@@ -33,7 +33,9 @@
           var docsPath = 'docs/';
 
           // PagesCMS config — must point to the CONTENT repo (document-in-docsify), not the CMS app repo
-          var pagesCmsBase = 'https://pages-cms-ten-psi.vercel.app';
+          var pagesCmsBase = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://pages-cms-ten-psi.vercel.app';
           var pagesCmsOwner = 'MohammedAlith1312';
           var pagesCmsRepo = 'document-in-docsify';
           var pagesCmsCollection = 'pages'; // matches "name: pages" in .pages.yml
