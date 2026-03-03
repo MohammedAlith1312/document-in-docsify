@@ -12,6 +12,15 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <script>
+    // Immediate Auth Guard: Redirect before the rest of the page parses/renders
+    (function () {
+      if (localStorage.getItem('gh_access_token')) return;
+      if (window.location.pathname.includes('login.html')) return;
+      var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
+      window.location.replace(basePath + 'login.html');
+    })();
+  </script>
 </head>
 
 <body>
