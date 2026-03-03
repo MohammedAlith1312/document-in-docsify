@@ -15,6 +15,18 @@
   <script>
     // Immediate Auth Guard: Redirect before the rest of the page parses/renders
     (function () {
+      var params = new URLSearchParams(window.location.search);
+      // If we have an access token in the URL, save it immediately before the guard checks
+      if (params.has('access_token')) {
+        localStorage.setItem('gh_access_token', params.get('access_token'));
+        localStorage.setItem('gh_login', params.get('login'));
+        localStorage.setItem('gh_name', params.get('name'));
+        localStorage.setItem('gh_avatar_url', params.get('avatar_url'));
+        // Clean URL to prevent re-processing
+        var cleanUrl = window.location.origin + window.location.pathname + (window.location.hash || '#/');
+        window.history.replaceState({}, '', cleanUrl);
+      }
+
       if (localStorage.getItem('gh_access_token')) return;
       if (window.location.pathname.includes('login.html')) return;
       var basePath = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
