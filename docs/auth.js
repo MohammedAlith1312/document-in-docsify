@@ -2,7 +2,7 @@
 (function () {
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:3000'
-        : '';
+        : 'https://mohammedalith1312.github.io/document-in-docsify';
 
     // Detect base path (works for both localhost and GitHub Pages subpath)
     const BASE_PATH = window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/') + 1);
